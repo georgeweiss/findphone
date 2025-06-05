@@ -1,0 +1,281 @@
+:root {
+    --primary-bg: #121212;
+    --secondary-bg: #1E1E1E;
+    --accent-color: #7B68EE;
+    --accent-hover: #6A5ACD;
+    --text-primary: #FFFFFF;
+    --text-secondary: #AAAAAA;
+    --success-color: #4CAF50;
+    --error-color: #F44336;
+    --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    background: linear-gradient(45deg, var(--accent-color), #9370DB);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: var(--secondary-bg);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    margin-bottom: 30px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+.card-content {
+    padding: 30px;
+}
+
+.instruction {
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.input-container input,
+.input-container textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all var(--transition-speed);
+    outline: none;
+}
+
+.input-container label {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    color: var(--text-secondary);
+    transition: all var(--transition-speed);
+    pointer-events: none;
+    font-size: 1rem;
+}
+
+.input-container input:focus,
+.input-container textarea:focus,
+.input-container input:not(:placeholder-shown),
+.input-container textarea:not(:placeholder-shown) {
+    border-color: var(--accent-color);
+    background-color: rgba(123, 104, 238, 0.05);
+}
+
+.input-container input:focus + label,
+.input-container textarea:focus + label,
+.input-container input:not(:placeholder-shown) + label,
+.input-container textarea:not(:placeholder-shown) + label {
+    transform: translateY(-25px) scale(0.8);
+    color: var(--accent-color);
+}
+
+.input-container input::placeholder,
+.input-container textarea::placeholder {
+    color: transparent;
+}
+
+.textarea label {
+    top: 15px;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: none;
+}
+
+.submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+.btn-icon {
+    margin-left: 10px;
+}
+
+.loading-spinner {
+    display: none;
+    position: absolute;
+}
+
+.submit-btn.loading .btn-text,
+.submit-btn.loading .btn-icon {
+    visibility: hidden;
+}
+
+.submit-btn.loading .loading-spinner {
+    display: block;
+}
+
+.notification {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: none;
+}
+
+.notification i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.success-message {
+    background-color: rgba(76, 175, 80, 0.1);
+    border: 1px solid var(--success-color);
+    color: var(--success-color);
+}
+
+.error-message {
+    background-color: rgba(244, 67, 54, 0.1);
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+}
+
+.whatsapp-info {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-secondary);
+}
+
+.whatsapp-info a {
+    color: #25D366;
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+.whatsapp-info a:hover {
+    color: #128C7E;
+}
+
+footer {
+    margin-top: 40px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .card-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .logo {
+        font-size: 2.5rem;
+    }
+    
+    .input-container input,
+    .input-container textarea {
+        padding: 12px;
+    }
+    
+    .input-container label {
+        left: 12px;
+        top: 12px;
+    }
+}
