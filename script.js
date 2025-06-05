@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         // Envia dados para o serviço de email usando EmailJS
-        emailjs.send('service_id', 'template_id', data)
+        emailjs.send('service_063i92j', 'template_vdnum6q', data)
             .then(function(response) {
                 submitBtn.classList.remove('loading');
                 successMessage.style.display = 'flex';
