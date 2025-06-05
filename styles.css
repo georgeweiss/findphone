@@ -110,6 +110,13 @@ h1 {
     outline: none;
 }
 
+/* Placeholder escondido */
+.input-container input::placeholder,
+.input-container textarea::placeholder {
+    color: transparent;
+}
+
+/* Label padrão */
 .input-container label {
     position: absolute;
     left: 15px;
@@ -120,14 +127,7 @@ h1 {
     font-size: 1rem;
 }
 
-.input-container input:focus,
-.input-container textarea:focus,
-.input-container input:not(:placeholder-shown),
-.input-container textarea:not(:placeholder-shown) {
-    border-color: var(--accent-color);
-    background-color: rgba(62, 124, 144, 0.05);
-}
-
+/* Label flutuando em foco ou com conteúdo */
 .input-container input:focus + label,
 .input-container textarea:focus + label,
 .input-container input:not(:placeholder-shown) + label,
@@ -136,15 +136,18 @@ h1 {
     color: var(--accent-color);
 }
 
-.input-container input::placeholder,
-.input-container textarea::placeholder {
-    color: transparent;
+/* Garante que textarea com texto inicie com label flutuante */
+.input-container textarea:not(:placeholder-shown) + label {
+    transform: translateY(-25px) scale(0.8);
+    color: var(--accent-color);
 }
 
-.textarea label {
+/* Extra para class textarea se necessário */
+.input-container.textarea label {
     top: 15px;
 }
 
+/* Erro */
 .error-message {
     color: var(--error-color);
     font-size: 0.8rem;
@@ -152,6 +155,7 @@ h1 {
     display: none;
 }
 
+/* Botão */
 .submit-btn {
     display: flex;
     align-items: center;
@@ -192,6 +196,7 @@ h1 {
     display: block;
 }
 
+/* Notificações */
 .notification {
     display: flex;
     align-items: center;
