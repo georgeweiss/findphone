@@ -1,8 +1,8 @@
 :root {
     --primary-bg: #121212;
     --secondary-bg: #1E1E1E;
-    --accent-color: #7B68EE;
-    --accent-hover: #6A5ACD;
+    --accent-color: #3E7C90;
+    --accent-hover: #2B5F6F;
     --text-primary: #FFFFFF;
     --text-secondary: #AAAAAA;
     --success-color: #4CAF50;
@@ -52,7 +52,7 @@ h1 {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 10px;
-    background: linear-gradient(45deg, var(--accent-color), #9370DB);
+    background: linear-gradient(45deg, var(--accent-color), #4A8FA5);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -125,7 +125,7 @@ h1 {
 .input-container input:not(:placeholder-shown),
 .input-container textarea:not(:placeholder-shown) {
     border-color: var(--accent-color);
-    background-color: rgba(123, 104, 238, 0.05);
+    background-color: rgba(62, 124, 144, 0.05);
 }
 
 .input-container input:focus + label,
