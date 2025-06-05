@@ -125,6 +125,9 @@ h1 {
     transition: all var(--transition-speed);
     pointer-events: none;
     font-size: 1rem;
+    max-width: calc(100% - 30px);
+    white-space: normal;
+    line-height: 1.2;
 }
 
 /* Label flutuando em foco ou com conteúdo */
