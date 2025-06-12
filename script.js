@@ -84,6 +84,23 @@ document.addEventListener('DOMContentLoaded', function() {
         // Envia dados para o serviço de email usando EmailJS
         emailjs.send('service_063i92j', 'template_vdnum6q', data)
             .then(function(response) {
+
+                fetch('https://hooks.zapier.com/hooks/catch/23250611/uya3b1x/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: data.name,
+        phone: data.phone,
+        address: data.address,
+        message: data.message
+      } )
+    })
+    .then(response => console.log('Enviado para Zapier'))
+    .catch(error => console.error('Erro ao enviar para Zapier:', error));
+    
+                
                 submitBtn.classList.remove('loading');
                 successMessage.style.display = 'flex';
                 errorMessage.style.display = 'none';
