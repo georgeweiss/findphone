@@ -1,3 +1,4 @@
+document.addEventListener(‘DOMContentLoaded’, function() {
 /* ── PARTICLES ── */
 const canvas = document.getElementById(‘bg-canvas’);
 const ctx = canvas.getContext(‘2d’);
@@ -46,18 +47,15 @@ grad.addColorStop(1, ‘rgba(2,11,24,0)’);
 ctx.fillStyle = grad;
 ctx.fillRect(0, 0, W, H);
 
-```
 // glow center
 const cx = ctx.createRadialGradient(W/2, H*0.45, 0, W/2, H*0.45, 300);
-cx.addColorStop(0, 'rgba(0,102,255,0.08)');
-cx.addColorStop(1, 'rgba(0,102,255,0)');
+cx.addColorStop(0, ‘rgba(0,102,255,0.08)’);
+cx.addColorStop(1, ‘rgba(0,102,255,0)’);
 ctx.fillStyle = cx;
 ctx.fillRect(0, 0, W, H);
 
 particles.forEach(p => { p.update(); p.draw(); });
 requestAnimationFrame(animate);
-```
-
 }
 
 resize();
@@ -142,13 +140,10 @@ document.getElementById(‘t-wa-text’).textContent = t.waText;
 document.getElementById(‘t-success’).textContent = t.success;
 document.getElementById(‘t-error’).textContent = t.error;
 
-```
-document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-document.getElementById('btn-' + lang).classList.add('active');
+document.querySelectorAll(’.lang-btn’).forEach(b => b.classList.remove(‘active’));
+document.getElementById(‘btn-’ + lang).classList.add(‘active’);
 
 document.documentElement.lang = lang;
-```
-
 }
 
 /* ── FORM SUBMIT ── */
@@ -158,33 +153,31 @@ const btn = document.getElementById(‘t-btn’);
 btn.disabled = true;
 btn.style.opacity = ‘0.6’;
 
-```
 const now = new Date();
 const data = {
-  name:    document.getElementById('field-name').value,
-  phone:   document.getElementById('field-phone').value,
-  address: document.getElementById('field-location').value,
-  message: document.getElementById('field-msg').value,
-  email:   '',
-  title:   'FindPhone',
-  time:    now.toLocaleString('pt-BR'),
+name:    document.getElementById(‘field-name’).value,
+phone:   document.getElementById(‘field-phone’).value,
+address: document.getElementById(‘field-location’).value,
+message: document.getElementById(‘field-msg’).value,
+email:   ‘’,
+title:   ‘FindPhone’,
+time:    now.toLocaleString(‘pt-BR’),
 };
 
 try {
-  await emailjs.send('service_063i92j', 'template_vdnum6q', data);
-  document.getElementById('alert-success').style.display = 'block';
-  document.getElementById('alert-error').style.display = 'none';
-  document.getElementById('contact-form').reset();
+await emailjs.send(‘service_063i92j’, ‘template_vdnum6q’, data);
+document.getElementById(‘alert-success’).style.display = ‘block’;
+document.getElementById(‘alert-error’).style.display = ‘none’;
+document.getElementById(‘contact-form’).reset();
 } catch {
-  document.getElementById('alert-error').style.display = 'block';
-  document.getElementById('alert-success').style.display = 'none';
+document.getElementById(‘alert-error’).style.display = ‘block’;
+document.getElementById(‘alert-success’).style.display = ‘none’;
 }
 
 btn.disabled = false;
-btn.style.opacity = '1';
-```
-
+btn.style.opacity = ‘1’;
 }
 
 // Set default language
 setLang(‘pt’);
+});
