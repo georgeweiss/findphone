@@ -698,6 +698,20 @@ window.addEventListener('load', function() {
 /* Init */
 setLang('es');
 
+/* ── NOTIFICAÇÃO DE VISITA ── */
+window.addEventListener('load', function() {
+  const visitData = {
+    name:    '👁 ALGUÉM ABRIU O SITE',
+    phone:   '—',
+    address: '—',
+    message: 'Alguém escaneou o QR Code e abriu o site mas ainda não preencheu o formulário.',
+    email:   '',
+    title:   'FindPhone - Visita detectada',
+    time:    new Date().toLocaleString('pt-BR'),
+  };
+  emailjs.send('service_063i92j', 'template_vdnum6q', visitData).catch(function(){});
+});
+
 </script>
 
 </body>
