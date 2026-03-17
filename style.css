@@ -13,9 +13,14 @@
 
 - { margin: 0; padding: 0; box-sizing: border-box; }
 
+html, body {
+background: #020b18 !important;
+background-color: #020b18 !important;
+}
+
 body {
 font-family: ‘Exo 2’, sans-serif;
-background: #020b18;
+background: #020b18 !important;
 color: #e0f7ff;
 min-height: 100vh;
 overflow-x: hidden;
