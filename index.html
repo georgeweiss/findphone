@@ -426,8 +426,8 @@ input:focus, textarea:focus {
 
 <div class="lang-bar">
   <span class="lang-label">Lang</span>
-  <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')"><span class="flag">🇧🇷</span> PT</button>
-  <button class="lang-btn" id="btn-es" onclick="setLang('es')"><span class="flag">🇪🇸</span> ES</button>
+  <button class="lang-btn" id="btn-pt" onclick="setLang('pt')"><span class="flag">🇧🇷</span> PT</button>
+  <button class="lang-btn active" id="btn-es" onclick="setLang('es')"><span class="flag">🇪🇸</span> ES</button>
   <button class="lang-btn" id="btn-en" onclick="setLang('en')"><span class="flag">🇺🇸</span> EN</button>
 </div>
 
@@ -466,7 +466,7 @@ input:focus, textarea:focus {
     <label class="form-label" id="t-label-name">Nome</label>
     <div class="input-wrap">
       <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <input type="text" id="field-name" placeholder="Seu nome" required/>
+      <input type="text" id="field-name" placeholder="Seu nome"/>
     </div>
   </div>
 
@@ -482,7 +482,7 @@ input:focus, textarea:focus {
     <label class="form-label" id="t-label-location">Local</label>
     <div class="input-wrap">
       <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <input type="text" id="field-location" placeholder="Onde posso buscar?" required/>
+      <input type="text" id="field-location" placeholder="Onde posso buscar?"/>
     </div>
   </div>
 
@@ -696,7 +696,7 @@ window.addEventListener('load', function() {
 });
 
 /* Init */
-setLang('pt');
+setLang('es');
 
 </script>
 
