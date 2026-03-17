@@ -2,45 +2,443 @@
 
 <html lang="pt">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Você Encontrou Meu Telefone</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>emailjs.init('t4E9yAUFkreu5fEMq');</script>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      background: #020b18 !important;
+      min-height: 100vh;
+    }
+    * { box-sizing: border-box; }
+
+```
+body {
+  font-family: 'Exo 2', sans-serif;
+  color: #e0f7ff;
+  overflow-x: hidden;
+  position: relative;
+}
+
+#bg-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.grid-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* LANG BAR */
+.lang-bar {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 20px;
+  gap: 8px;
+  background: rgba(2,11,24,0.95);
+  border-bottom: 1px solid rgba(0,245,255,0.15);
+}
+
+.lang-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: rgba(224,247,255,0.4);
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,245,255,0.05);
+  border: 1px solid rgba(0,245,255,0.2);
+  border-radius: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(224,247,255,0.5);
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+
+.lang-btn:hover {
+  background: rgba(0,245,255,0.12);
+  border-color: #00f5ff;
+  color: #00f5ff;
+  box-shadow: 0 0 12px rgba(0,245,255,0.25);
+}
+
+.lang-btn.active {
+  background: rgba(0,245,255,0.15);
+  border-color: #00f5ff;
+  color: #00f5ff;
+  box-shadow: 0 0 16px rgba(0,245,255,0.3);
+}
+
+.flag { font-size: 16px; line-height: 1; }
+
+/* WRAPPER */
+.wrapper {
+  position: relative;
+  z-index: 10;
+  min-height: calc(100vh - 53px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 16px;
+}
+
+/* CARD */
+.card {
+  width: 100%;
+  max-width: 500px;
+  background: rgba(4,16,34,0.85);
+  border: 1px solid rgba(0,245,255,0.2);
+  border-radius: 24px;
+  padding: 44px 36px;
+  position: relative;
+  box-shadow:
+    0 0 80px rgba(0,245,255,0.07),
+    0 40px 80px rgba(0,0,0,0.7);
+  animation: cardIn 0.9s cubic-bezier(0.23,1,0.32,1) both;
+}
+
+/* Corner accents */
+.card::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: -1px;
+  width: 22px; height: 22px;
+  border-top: 2px solid #00f5ff;
+  border-left: 2px solid #00f5ff;
+  border-radius: 24px 0 0 0;
+  opacity: 0.7;
+}
+.card::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; right: -1px;
+  width: 22px; height: 22px;
+  border-bottom: 2px solid #00f5ff;
+  border-right: 2px solid #00f5ff;
+  border-radius: 0 0 24px 0;
+  opacity: 0.7;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* PHONE ICON */
+.phone-icon-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.phone-ring {
+  position: relative;
+  width: 88px; height: 88px;
+}
+
+.ring-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid #00f5ff;
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
+.ring-pulse:nth-child(2) { animation-delay: 1.2s; }
+
+@keyframes pulse-ring {
+  0%   { transform: scale(0.75); opacity: 0.9; }
+  100% { transform: scale(1.65); opacity: 0; }
+}
+
+.phone-core {
+  position: absolute;
+  inset: 12px;
+  background: linear-gradient(135deg, rgba(0,245,255,0.15), rgba(0,102,255,0.2));
+  border: 1.5px solid rgba(0,245,255,0.8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 25px rgba(0,245,255,0.5), inset 0 0 15px rgba(0,245,255,0.1);
+}
+
+.phone-core svg {
+  width: 28px; height: 28px;
+  filter: drop-shadow(0 0 6px #00f5ff);
+}
+
+/* TITLE */
+.card-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 21px;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.3;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #00f5ff 0%, #0088ff 50%, #cc00ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1.5px;
+  animation: fadeUp 0.8s 0.2s both;
+}
+
+.card-sub {
+  text-align: center;
+  font-size: 14px;
+  color: rgba(224,247,255,0.55);
+  margin-bottom: 6px;
+  animation: fadeUp 0.8s 0.35s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* DIVIDER */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 22px;
+}
+
+.divider-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,245,255,0.2), transparent);
+}
+
+.divider-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #00f5ff;
+  box-shadow: 0 0 8px #00f5ff;
+}
+
+/* FORM */
+.form-group { margin-bottom: 14px; animation: fadeUp 0.7s both; }
+.form-group:nth-child(1) { animation-delay: 0.45s; }
+.form-group:nth-child(2) { animation-delay: 0.55s; }
+.form-group:nth-child(3) { animation-delay: 0.65s; }
+.form-group:nth-child(4) { animation-delay: 0.75s; }
+
+.form-label {
+  display: block;
+  font-size: 9px;
+  font-family: 'Orbitron', monospace;
+  letter-spacing: 3px;
+  color: rgba(0,245,255,0.6);
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.input-wrap { position: relative; }
+
+.input-icon {
+  position: absolute;
+  left: 13px; top: 50%;
+  transform: translateY(-50%);
+  width: 15px; height: 15px;
+  color: rgba(0,245,255,0.5);
+  pointer-events: none;
+}
+
+.input-icon-top {
+  position: absolute;
+  left: 13px; top: 14px;
+  width: 15px; height: 15px;
+  color: rgba(0,245,255,0.5);
+  pointer-events: none;
+}
+
+input, textarea {
+  width: 100%;
+  background: rgba(0,245,255,0.04);
+  border: 1px solid rgba(0,245,255,0.18);
+  border-radius: 11px;
+  padding: 13px 13px 13px 40px;
+  color: #e0f7ff;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+  -webkit-appearance: none;
+}
+
+textarea {
+  padding-top: 13px;
+  resize: vertical;
+  min-height: 88px;
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(224,247,255,0.2);
+}
+
+input:focus, textarea:focus {
+  border-color: rgba(0,245,255,0.7);
+  background: rgba(0,245,255,0.07);
+  box-shadow: 0 0 0 3px rgba(0,245,255,0.08);
+}
+
+/* BUTTON */
+.btn-submit {
+  width: 100%;
+  margin-top: 6px;
+  padding: 15px;
+  font-family: 'Orbitron', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #0044ff, #00ccff);
+  color: #fff;
+  box-shadow: 0 0 30px rgba(0,150,255,0.4), 0 6px 20px rgba(0,0,0,0.4);
+  transition: all 0.3s ease;
+  animation: fadeUp 0.7s 0.85s both;
+}
+
+.btn-submit::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-submit:hover::after { left: 100%; }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,200,255,0.5); }
+.btn-submit:active { transform: translateY(0); }
+
+/* WHATSAPP */
+.wa-section {
+  margin-top: 24px;
+  text-align: center;
+  animation: fadeUp 0.7s 1s both;
+}
+
+.wa-divider {
+  font-size: 10px;
+  color: rgba(224,247,255,0.3);
+  letter-spacing: 3px;
+  font-family: 'Orbitron', monospace;
+  margin-bottom: 14px;
+}
+
+.wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(37,211,102,0.1);
+  border: 1px solid rgba(37,211,102,0.3);
+  border-radius: 50px;
+  padding: 12px 28px;
+  color: #25d366;
+  text-decoration: none;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.wa-btn:hover {
+  background: rgba(37,211,102,0.18);
+  box-shadow: 0 0 20px rgba(37,211,102,0.25);
+  transform: translateY(-2px);
+}
+
+.wa-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+/* ALERTS */
+.alert {
+  display: none;
+  padding: 13px 16px;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.alert-success {
+  background: rgba(0,255,100,0.08);
+  border: 1px solid rgba(0,255,100,0.25);
+  color: #00e05a;
+}
+
+.alert-error {
+  background: rgba(255,0,80,0.08);
+  border: 1px solid rgba(255,0,80,0.25);
+  color: #ff3366;
+}
+
+@media (max-width: 480px) {
+  .card { padding: 36px 20px; }
+  .card-title { font-size: 18px; }
+  .lang-btn { padding: 6px 10px; font-size: 11px; }
+}
+```
+
+  </style>
 </head>
 <body>
 
 <canvas id="bg-canvas"></canvas>
 
 <div class="grid-overlay"></div>
-<div class="scanline"></div>
 
-<!-- LANGUAGE BAR -->
+<!-- LANG BAR -->
 
 <div class="lang-bar">
   <span class="lang-label">Lang</span>
-  <button class="lang-btn active" onclick="setLang('pt')" id="btn-pt">
-    <span class="flag">🇧🇷</span> PT
-  </button>
-  <button class="lang-btn" onclick="setLang('es')" id="btn-es">
-    <span class="flag">🇪🇸</span> ES
-  </button>
-  <button class="lang-btn" onclick="setLang('en')" id="btn-en">
-    <span class="flag">🇺🇸</span> EN
-  </button>
+  <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')"><span class="flag">🇧🇷</span> PT</button>
+  <button class="lang-btn" id="btn-es" onclick="setLang('es')"><span class="flag">🇪🇸</span> ES</button>
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')"><span class="flag">🇺🇸</span> EN</button>
 </div>
-
-<!-- MAIN -->
 
 <div class="wrapper">
   <div class="card">
 
 ```
-<!-- Phone icon with pulse -->
 <div class="phone-icon-wrap">
   <div class="phone-ring">
+    <div class="ring-pulse"></div>
+    <div class="ring-pulse"></div>
     <div class="phone-core">
       <svg viewBox="0 0 24 24" fill="none" stroke="#00f5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
@@ -64,12 +462,11 @@
 </p>
 
 <form id="contact-form" onsubmit="handleSubmit(event)">
-
   <div class="form-group">
     <label class="form-label" id="t-label-name">Nome</label>
     <div class="input-wrap">
       <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <input type="text" id="field-name" required/>
+      <input type="text" id="field-name" placeholder="Seu nome" required/>
     </div>
   </div>
 
@@ -77,7 +474,7 @@
     <label class="form-label" id="t-label-phone">Telefone</label>
     <div class="input-wrap">
       <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.74a16 16 0 0 0 6 6l1.27-.9a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      <input type="tel" id="field-phone" required/>
+      <input type="tel" id="field-phone" placeholder="Seu telefone" required/>
     </div>
   </div>
 
@@ -85,7 +482,7 @@
     <label class="form-label" id="t-label-location">Local</label>
     <div class="input-wrap">
       <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <input type="text" id="field-location" required/>
+      <input type="text" id="field-location" placeholder="Onde posso buscar?" required/>
     </div>
   </div>
 
@@ -93,7 +490,7 @@
     <label class="form-label" id="t-label-msg">Mensagem</label>
     <div class="input-wrap">
       <svg class="input-icon-top" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      <textarea id="field-msg" style="padding-left:42px;"></textarea>
+      <textarea id="field-msg" placeholder="Mensagem adicional..." style="padding-left:40px;"></textarea>
     </div>
   </div>
 
@@ -103,7 +500,6 @@
   <div class="alert alert-error" id="alert-error">✗ <span id="t-error">Ocorreu um erro. Tente novamente.</span></div>
 </form>
 
-<!-- WhatsApp -->
 <div class="wa-section">
   <div class="wa-divider" id="t-or">— ou —</div>
   <a href="https://wa.me/5567999868167" class="wa-btn" target="_blank">
@@ -116,7 +512,152 @@
   </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+/* ── TRANSLATIONS ── */
+const translations = {
+  pt: {
+    title: 'Você Encontrou<br>Meu Telefone!',
+    sub: 'Obrigado por tentar me ajudar.',
+    instructions: 'Por favor, preencha as informações abaixo e entrarei em contato o mais breve possível:',
+    labelName: 'Nome', labelPhone: 'Telefone', labelLocation: 'Local para buscar', labelMsg: 'Mensagem',
+    placeholderName: 'Seu nome', placeholderPhone: 'Seu telefone',
+    placeholderLocation: 'Onde posso buscar?', placeholderMsg: 'Mensagem adicional...',
+    btn: '⟶ ENVIAR', or: '— ou —', waText: 'Contato via WhatsApp',
+    success: 'Mensagem enviada com sucesso!', error: 'Ocorreu um erro. Tente novamente.',
+  },
+  es: {
+    title: '¡Encontraste<br>Mi Teléfono!',
+    sub: 'Gracias por intentar ayudarme.',
+    instructions: 'Por favor, completa la información y me pondré en contacto a la brevedad:',
+    labelName: 'Nombre', labelPhone: 'Teléfono', labelLocation: 'Dónde recoger', labelMsg: 'Mensaje',
+    placeholderName: 'Tu nombre', placeholderPhone: 'Tu teléfono',
+    placeholderLocation: '¿Dónde puedo recogerte?', placeholderMsg: 'Mensaje adicional...',
+    btn: '⟶ ENVIAR', or: '— o —', waText: 'Contactar por WhatsApp',
+    success: '¡Mensaje enviado con éxito!', error: 'Ocurrió un error. Inténtalo de nuevo.',
+  },
+  en: {
+    title: 'You Found<br>My Phone!',
+    sub: 'Thank you for trying to help me.',
+    instructions: 'Please fill in the information below and I will get back to you as soon as possible:',
+    labelName: 'Name', labelPhone: 'Phone', labelLocation: 'Pickup location', labelMsg: 'Message',
+    placeholderName: 'Your name', placeholderPhone: 'Your phone number',
+    placeholderLocation: 'Where can I pick it up?', placeholderMsg: 'Additional message...',
+    btn: '⟶ SEND', or: '— or —', waText: 'Contact via WhatsApp',
+    success: 'Message sent successfully!', error: 'An error occurred. Please try again.',
+  }
+};
+
+function setLang(lang) {
+  const t = translations[lang];
+  if (!t) return;
+  document.getElementById('t-title').innerHTML = t.title;
+  document.getElementById('t-sub').textContent = t.sub;
+  document.getElementById('t-instructions').textContent = t.instructions;
+  document.getElementById('t-label-name').textContent = t.labelName;
+  document.getElementById('t-label-phone').textContent = t.labelPhone;
+  document.getElementById('t-label-location').textContent = t.labelLocation;
+  document.getElementById('t-label-msg').textContent = t.labelMsg;
+  document.getElementById('field-name').placeholder = t.placeholderName;
+  document.getElementById('field-phone').placeholder = t.placeholderPhone;
+  document.getElementById('field-location').placeholder = t.placeholderLocation;
+  document.getElementById('field-msg').placeholder = t.placeholderMsg;
+  document.getElementById('t-btn').textContent = t.btn;
+  document.getElementById('t-or').textContent = t.or;
+  document.getElementById('t-wa-text').textContent = t.waText;
+  document.getElementById('t-success').textContent = t.success;
+  document.getElementById('t-error').textContent = t.error;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-' + lang).classList.add('active');
+  document.documentElement.lang = lang;
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('t-btn');
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  const data = {
+    name:    document.getElementById('field-name').value,
+    phone:   document.getElementById('field-phone').value,
+    address: document.getElementById('field-location').value,
+    message: document.getElementById('field-msg').value,
+    email:   '',
+    title:   'FindPhone',
+    time:    new Date().toLocaleString('pt-BR'),
+  };
+  try {
+    await emailjs.send('service_063i92j', 'template_vdnum6q', data);
+    document.getElementById('alert-success').style.display = 'block';
+    document.getElementById('alert-error').style.display = 'none';
+    document.getElementById('contact-form').reset();
+  } catch(err) {
+    document.getElementById('alert-error').style.display = 'block';
+    document.getElementById('alert-success').style.display = 'none';
+  }
+  btn.disabled = false;
+  btn.style.opacity = '1';
+}
+
+/* ── PARTICLES ── */
+window.addEventListener('load', function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x = Math.random() * W;
+      this.y = init ? Math.random() * H : H + 10;
+      this.size = Math.random() * 1.5 + 0.3;
+      this.speedY = -(Math.random() * 0.4 + 0.1);
+      this.speedX = (Math.random() - 0.5) * 0.2;
+      this.opacity = Math.random() * 0.5 + 0.1;
+      this.color = Math.random() > 0.6 ? '0,245,255' : '0,102,255';
+    }
+    update() {
+      this.y += this.speedY;
+      this.x += this.speedX;
+      if (this.y < -10) this.reset(false);
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.color},${this.opacity})`;
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    for (let i = 0; i < 90; i++) particles.push(new Particle());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)*0.7);
+    grad.addColorStop(0, 'rgba(0,30,60,0.5)');
+    grad.addColorStop(1, 'rgba(2,11,24,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+  }
+
+  resize();
+  initParticles();
+  animate();
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+});
+
+/* Init */
+setLang('pt');
+</script>
 
 </body>
 </html>
